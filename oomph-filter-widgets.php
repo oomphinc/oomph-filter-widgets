@@ -4,9 +4,10 @@ Plugin Name: Oomph Filter Widgets
 Plugin URI: http://www.thinkoomph.com/plugins-modules/oomph-filter-widgets/
 Description: Add a search screen to the widget list to allow for filtering of long widget lists.
 Author: Ben Doherty @ Oomph, Inc.
-Version: 0.1
+Version: 0.2
 Author URI: http://www.thinkoomph.com/thinking/author/ben-doherty/
 License: GPLv2 or later
+Text Domain: oomph-filter-widgets
 
 		Copyright © 2013 Oomph, Inc. <http://oomphinc.com>
 
@@ -22,58 +23,57 @@ License: GPLv2 or later
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
-*/ 
+*/
 
 /**
  * @package Oomph Filter Widgets
  */
 class Oomph_Filter_Widgets {
+	/**
+	 * Register da hooks.
+	 */
 	function __construct(  ) {
-		add_filter( 'admin_head', array( $this, 'filter_script'  )  );
+		add_filter( 'admin_head', array( $this, 'the_one_css_rule' ), 0 );
+		add_filter( 'admin_enqueue_scripts', array( $this, 'enqueue_script' ) );
 	}
 
-	function filter_script() {
+	/**
+	 * Because should we really enqueue for a tiny rule?
+	 *
+	 * @action admin_head
+	 */
+	function the_one_css_rule() {
 		global $pagenow;
 
-		if( $pagenow != 'widgets.php' ) 
+		if( $pagenow != 'widgets.php' ) {
 			return;
-?>
-<script>
-(function($) {
-	if(!window.Oomph) window.Oomph = {};
-
-	Oomph.FilterWidgets = {
-		init: function() {
-			$('#available-widgets .widget-holder p:first-child')
-				.after('<p class="description" title="Search for widgets (Ctrl-Shift-F)"><label>Filter widgets: <input id="widget-search" type="text" placeholder="Search widget names..." /></label></p>');
-
-			var $search = $('#widget-search');
-			var $widget_list = $('#widget-list');
-
-			$('body').on('keyup', function(ev) {
-				if(ev.keyCode == 70 && ev.ctrlKey)
-					$search.focus();
-			});
-
-			$search.on('click', function(ev) {
-				ev.stopPropagation();
-			}).on('keyup', function(ev) {
-				var searchBox = this;
-				$widget_list
-					.find('.widget').show()
-					.find('.widget-title').filter(function() { 
-						return $(this).text().toLowerCase().indexOf(searchBox.value.toLowerCase()) == -1; 
-					}).parents('.widget').hide();
-			});
 		}
+
+		echo "\n<style>.oomph-filter-widgets input { width: 100%; }</style>\n";
 	}
 
-	$(Oomph.FilterWidgets.init);
-})(jQuery);
-</script>
-<?php
+	/**
+	 * Enqueue the one script.
+	 *
+	 * @action admin_enqueue_scripts
+	 */
+	function enqueue_script() {
+		global $pagenow;
+
+		if( $pagenow != 'widgets.php' ) {
+			return;
+		}
+
+		wp_enqueue_script( 'oomph-filter-widgets', plugins_url( 'oomph-filter-widgets.js', __FILE__ ) );
+		wp_localize_script( 'oomph-filter-widgets', 'Oomph', array(
+			'text' => array(
+				'filterWidgets' => __( 'Filter Widgets', 'oomph-filter-widgets' ),
+				'searchForWidgets' => __( 'Search for Widgets (Ctrl-Shift-F)', 'oomph-filter-widgets' )
+			)
+		) );
 	}
 }
 
+// Make it happen.
 $GLOBALS['Oomph_Filter_Widgets'] = new Oomph_Filter_Widgets();
 
