@@ -3,8 +3,8 @@ Contributors: bendoh, thinkoomph
 Donate link: http://www.thinkoomph.com/
 Tags: clone, widget, sidebar
 Requires at least: 3.2
-Tested up to: 3.5.2
-Stable tag: 0.1
+Tested up to: 4.4.2
+Stable tag: 0.2
 
 Allow back-end users to filter widgets by name for quickly finding the widgets you need.
 
@@ -20,4 +20,5 @@ Allow back-end users to filter widgets by name for quickly finding the widgets y
 
 == Changelog ==
 
+0.2 - Break javascript into separate file, localize text, add PHPDoc.
 0.1 - Initial release.
