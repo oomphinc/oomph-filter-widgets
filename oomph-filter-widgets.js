@@ -29,6 +29,7 @@
 			});
 		}
 	}
-
+	
+	// Shorthand for "init module on DOM load"
 	$(Oomph.FilterWidgets.init);
 })(jQuery);
