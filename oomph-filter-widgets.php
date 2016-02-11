@@ -9,7 +9,7 @@ Author URI: http://www.thinkoomph.com/thinking/author/ben-doherty/
 License: GPLv2 or later
 Text Domain: oomph-filter-widgets
 
-		Copyright © 2013 Oomph, Inc. <http://oomphinc.com>
+		Copyright © 2016 Oomph, Inc. <http://oomphinc.com>
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
