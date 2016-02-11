@@ -13,8 +13,9 @@
 			var $widget_list = $('#widget-list');
 
 			$('body').on('keyup', function(ev) {
-				if(ev.keyCode == 70 && ev.ctrlKey)
+				if(ev.keyCode == 70 && ev.ctrlKey) {
 					$search.focus();
+				}
 			});
 
 			$search.on('click', function(ev) {
